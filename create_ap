@@ -628,6 +628,9 @@ DAEMONIZE=0
 NO_HAVEGED=0
 USE_PSK=0
 
+
+
+
 HOSTAPD_DEBUG_ARGS=
 REDIRECT_TO_LOCALHOST=0
 
@@ -654,6 +657,39 @@ IP_ADDRS=
 ROUTE_ADDRS=
 
 HAVEGED_WATCHDOG_PID=
+
+############### DIYA SPECIFIC CONFIGS ################
+#load diya configs
+. /etc/diya/diya-network-config
+
+if [[ ! -z "$AP_INTERFACE" ]]; then
+    WIFI_IFACE=$AP_INTERFACE
+    if [[ ! -z $AP_INTERNET_INTERFACE ]]; then
+        INTERNET_IFACE=$AP_INTERNET_INTERFACE
+    else
+        INTERNET_IFACE=$AP_INTERFACE
+    fi
+fi
+
+if [[ ! -z $AP_NAME ]]; then
+    SSID=$AP_NAME
+fi
+
+if [[ ! -z $AP_PASSWORD ]]; then
+    PASSPHRASE=$AP_PASSWORD
+fi
+
+if [[ ! -z $AP_CHANNEL ]]; then
+    CHANNEL=$AP_CHANNEL
+fi
+
+if [[ ! -z $AP_IP ]]; then
+    GATEWAY=$AP_IP
+else
+    GATEWAY=10.42.0.1
+fi
+
+######################################################
 
 _cleanup() {
     local PID x
