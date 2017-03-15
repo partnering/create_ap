@@ -1047,6 +1047,41 @@ read_config() {
 
 ARGS=( "$@" )
 
+###########################################
+########### diya version check ############
+###########################################
+
+check_diya_version() {
+    [[ $(cat /etc/diya/version) =~ ([a-zA-Z]*)-([a-z]{1})([0-9]*) ]]
+    local product=${BASH_REMATCH[1]}
+    local version_major=${BASH_REMATCH[2]}
+    local version_minor=${BASH_REMATCH[3]}
+
+    if [[ $product == "diyaone" ]]
+    then
+        return 1
+    fi
+
+    if [[ $product == "dock" ]] && [[ $version_major > "c" ]]
+    then
+        return 1
+    fi
+    
+    return 0
+}
+
+check_diya_version
+if [[ $? == 0 ]]
+then
+    echo "diya-network not activated for product $(cat /etc/diya/version)"
+    exit 0
+fi
+
+#############################################
+#############################################
+#############################################
+
+
 # Preprocessing for --config before option-parsing starts
 for ((i=0; i<$#; i++)); do
     if [[ "${ARGS[i]}" = "--config" ]]; then
