@@ -1061,12 +1061,18 @@ check_diya_version() {
     then
         return 1
     fi
-
+		echo $product
+		echo $version_major
     if [[ $product == "dock" ]] && [[ $version_major > "c" ]]
     then
         return 1
     fi
-    
+
+		if [[ $product == "dan" ]] && [[ $version_major > "b" ]]
+    then
+        return 1
+    fi
+
     return 0
 }
 
