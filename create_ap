@@ -1066,7 +1066,12 @@ check_diya_version() {
     then
         return 1
     fi
-    
+
+		if [[ $product == "dan" ]] && [[ $version_major > "b" ]]
+    then
+        return 1
+    fi
+
     return 0
 }
 
